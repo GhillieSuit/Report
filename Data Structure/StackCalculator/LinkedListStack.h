@@ -14,7 +14,7 @@ typedef struct tagLinkedListStack
 	Node* Top;
 }LinkedListStack;
 
-void  LLS_CreateStack(LinkedListStack** Stack)		//스택 생성 함수
+void LLS_CreateStack(LinkedListStack** Stack)		//스택 생성 함수
 {
 	/*  스택을 자유저장소에 생성 */
 	(*Stack) = (LinkedListStack*)malloc(sizeof(LinkedListStack));
@@ -45,7 +45,6 @@ Node* LLS_Pop(LinkedListStack* Stack)		//Pop연산
 		{
 			CurrentTop = CurrentTop->NextNode;
 		}
-
 		Stack->Top = CurrentTop;
 		CurrentTop->NextNode = NULL;
 	}

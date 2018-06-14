@@ -10,7 +10,7 @@ typedef enum			//연산자 열거
 	MINUS = '-',
 	MULTIPLY = '*',
 	DIVIDE = '/',
-	PERCENT = '%',
+	//PERCENT = '%',		// 소수를 구현하여 나머지 연산이 불필요
 	SPACE = ' ',
 	OPERAND
 } SYMBOL;
@@ -72,7 +72,6 @@ int GetPriority(char Operator, int InStack)		//연산자 우선순위 확인 함수
 
 	case MULTIPLY:				// "*"	1순위
 	case DIVIDE:				// "/"
-	case PERCENT:				// "%"
 		Priority = 1;
 		break;
 
@@ -108,6 +107,7 @@ void GetPostfix(char* Infix, char* Postfix)		//중위식을 후위식으로 변환하는 함수
 		{
 			strcat(Postfix, Token);				//Postfix배열에 토큰을 이어 저장
 			strcat(Postfix, " ");
+			printf("%s\n", Postfix);
 		}
 		else if (Type == RIGHT_PARENTHESIS)		// ")"라면
 		{
@@ -123,6 +123,8 @@ void GetPostfix(char* Infix, char* Postfix)		//중위식을 후위식으로 변환하는 함수
 				else										// "("아니라면
 				{
 					strcat(Postfix, Popped->Data);			//Postfix변수에 노드값 저장
+					strcat(Postfix, " ");
+					printf("%s\n", Postfix);
 					LLS_DestroyNode(Popped);				//노드 삭제
 				}
 			}
@@ -135,11 +137,13 @@ void GetPostfix(char* Infix, char* Postfix)		//중위식을 후위식으로 변환하는 함수
 				Node* Popped = LLS_Pop(Stack);	//Pop연산하여 Popped에 저장
 
 				if (Popped->Data[0] != LEFT_PARENTHESIS)	// "("아니라면
+				{
 					strcat(Postfix, Popped->Data);			//Postfix변수에 노드값 저장
-
+					strcat(Postfix, " ");
+					printf("%s\n", Postfix);
+				}
 				LLS_DestroyNode(Popped);					//노드 삭제
 			}
-
 			LLS_Push(Stack, LLS_CreateNode(Token));			//Stack에 토큰을 Push
 		}
 	}
@@ -150,6 +154,8 @@ void GetPostfix(char* Infix, char* Postfix)		//중위식을 후위식으로 변환하는 함수
 
 		if (Popped->Data[0] != LEFT_PARENTHESIS)
 			strcat(Postfix, Popped->Data);					//Postfix배열에 Popped를 이어 저장
+			strcat(Postfix, " ");
+			printf("%s\n", Postfix);
 
 		LLS_DestroyNode(Popped);
 	}
@@ -197,13 +203,23 @@ double Calculate(char* Postfix)		//후위식 계산
 
 			switch (Type)	//연산자에 따른 연산
 			{
-			case PLUS:     TempResult = Operator1 + Operator2; break;
-			case MINUS:    TempResult = Operator1 - Operator2; break;
-			case MULTIPLY: TempResult = Operator1 * Operator2; break;
-			case DIVIDE:   TempResult = Operator1 / Operator2; break;
-			case PERCENT:  TempResult = Operator1 % Operator2; break;
+			case PLUS:     
+				TempResult = Operator1 + Operator2;
+				printf("연산 : %f + %f = %f\n", Operator1, Operator2, TempResult);
+				break;
+			case MINUS:    
+				TempResult = Operator1 - Operator2; 
+				printf("연산 : %f - %f = %f\n", Operator1, Operator2, TempResult);
+				break;
+			case MULTIPLY: 
+				TempResult = Operator1 * Operator2; 
+				printf("연산 : %f * %f = %f\n", Operator1, Operator2, TempResult);
+				break;
+			case DIVIDE:   
+				TempResult = Operator1 / Operator2; 
+				printf("연산 : %f / %f = %f\n", Operator1, Operator2, TempResult);
+				break;
 			}
-
 			_gcvt(TempResult, 10, ResultString);			//소수로 되어 있는 계산 결과를 문자열로 변환
 			LLS_Push(Stack, LLS_CreateNode(ResultString));	//저장된 문자열을 Stack에 저장
 		}
