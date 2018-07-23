@@ -1,62 +1,47 @@
-# Raspberry_Camera_Software
+# RaspberryPi setting
 
-## RPC_to_Server ver0.9
-
-Server.py
-Client.py
-
-## RPC_to_Telegram ver0.9
-Pyhton_telegram.py
-
-## 텔레그램 bot 이용하기 이미지 추출하기
-
-### Telegram 에서 bot 계정생성
-
-- botfather 검색
-
-  ![connection](https://github.com/OKCOMTECH/Raspberry_SensorKit/blob/master/png/telegrambot1.jpg)
-  
-- 계정생성 시작 (/start)
-
-  ![connection](https://github.com/OKCOMTECH/Raspberry_SensorKit/blob/master/png/telegrambot2.jpg)
-  
-- 계정네임 지정 ( uname_bot)
-
-  ![connection](https://github.com/OKCOMTECH/Raspberry_SensorKit/blob/master/png/telegrambot3.jpg)
-
-- HTTP API Token
-
-  ![connection](https://github.com/OKCOMTECH/Raspberry_SensorKit/blob/master/png/telegrambot4.jpg)
-  
-### python_telegram.py 소스코드 수정
-
-```python
-91: updater = Updater(" xyz ") 
-: " xyz " (위에서 생성한 Token 으로 대체)
+## Wireless Setting
+<pre> $ sudo vim /etc/network/interfaces </pre>
 ```
+iface wlan0 inet dhcp
+  wpa-ssid " ssid name"
+  wpa-psk " password"
 
-### 이미지를 전송할 Telegram User Chat ID 설정
-
-- userinfobot 검색
-
-  ![connection](https://github.com/OKCOMTECH/Raspberry_SensorKit/blob/master/png/telegrambot5.jpg)
-  
-- 사용자 Chatid 검색 (/start)
-
-  ![connection](https://github.com/OKCOMTECH/Raspberry_SensorKit/blob/master/png/telegrambot6.jpg)
-  
-### python_telegram.py 소스코드 수정
-  
-```python
-53: chat_id = 해당 봇에 아이디로 설정
+$ sudo ifdown wlan0
+$ sodo ifup wlan0
+$ ifconfig
 ```
+## Vim setting
 
-### 실행
+<pre>$ vim ~/.vimrc</pre>
 
-  ![connection](https://github.com/OKCOMTECH/Raspberry_SensorKit/blob/master/png/telegrambot7.jpg)
-
-```python
-/start 실행방법 표시
-/set <seconds> 이미지 촬영 타이머 설정
-ex) /set 1 1초후 이미지 추출
+```bash
+  syntax on                          ----------> 문법 기능 ON
+  filetype indent plugin on            ----------> 확장자로 문서 형식 파악
+  let python_version_2=1             ----------> python 2 문법을 따름(플러그 인)
+  let python_highlight_all=1          ----------> 모든 강조(색상) ON(플러그 인)
+  set tabstop=4                     ----------> 탭의 길이 설정
+  set softtabstop=4                  ----------> 탭을 누를 때 실제로 벌어지는 간격
+  set expandtab
+  #set autoindent                      ----------> 자동 들여쓰기
+  set bg=dark                       -----------> 배경을 어둡게(필수!) 가독성이 좋아짐
+  set nu                             ----------> 라인 숫자 ON
 ```
++ vim file
+
+http://www.vim.org/scripts/script.php?script_id=790
+접속하여 자신에게 맞는 Python.vim 파일을 다운받아 ~/.vim/syntax/ 에 저장한다.
+ 
++ 자동완성기능
+
+http://www.vim.org/scripts/script.php?script_id=850
+
+1. 위 사이트로 가서 최신 pydiction-x.x.zip 다운
+2. ~/.vim/ 폴더 안에 압축 해제
+3. ~/.vim/after/ftplugin/ (해당 폴더가 없을 경우 만든다) python_pydiction.vim 파일이 들어 있어야한다.
+4. ~/.vimrc 파일 수정
+   => filetype plugin on 추가
+   => let g:pydiction_location='~/.vim/pydiction(해당폴더명)/complete-dict' 추가
+   
+## Bashrc setting
+<pre>alias ls='ls --color=auto --time-style=long-iso'</pre>
